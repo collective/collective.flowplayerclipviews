@@ -6,7 +6,10 @@
     i18n_domain="collective.flowplayerclipviews">
 
   <five:registerPackage package="." initialize=".initialize" />
+  <i18n:registerTranslations directory="locales" />
   <include package=".browser" />
+
+  <adapter factory=".view_stats.ViewStatsAdapter" />
 
   <genericsetup:registerProfile
       name="default"

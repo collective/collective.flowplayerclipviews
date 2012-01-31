@@ -34,7 +34,7 @@ jq(document).ready(function () {
 				var fullDuration = Math.ceil(clip.fullDuration);
 				var cuePointsToBeCompleted = parseInt(fullDuration / jq.flowplayerclipviews.step_length, 10) - 1;
 				if (cuePointsToBeCompleted === clip.completedCuepoints) {
-					alert('Done');
+					jq.post(call_context + '/@@view-completed');
 				}
 				// seeing this video again and again will not trigger a new view count
 				clip.completedCuepoints = -1;
