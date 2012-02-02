@@ -16,6 +16,11 @@ jq(document).ready(function () {
 	$f("*").each(function (index) {
 		this.onStart(function (clip) {
 			if (clip.completedCuepoints !== 1) {
+				// warn server of view started
+				jq.post(call_context + '/@@view-started', {}, function (data, status) {
+					clip.token = data.token;
+				}, 'json');
+				// other settings, for cuepoints
 				clip.completedCuepoints = 0;
 				var fullDuration = Math.ceil(clip.fullDuration);
 				var cuepoints = [];
@@ -34,7 +39,7 @@ jq(document).ready(function () {
 				var fullDuration = Math.ceil(clip.fullDuration);
 				var cuePointsToBeCompleted = parseInt(fullDuration / jq.flowplayerclipviews.step_length, 10) - 1;
 				if (cuePointsToBeCompleted === clip.completedCuepoints) {
-					jq.post(call_context + '/@@view-completed');
+					jq.post(call_context + '/@@view-completed', {token: clip.token});
 				}
 				// seeing this video again and again will not trigger a new view count
 				clip.completedCuepoints = -1;
