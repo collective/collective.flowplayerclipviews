@@ -8,12 +8,12 @@ version = '0.1.0'
 setup(name='collective.flowplayerclipviews',
       version=version,
       description="Plugin for Plone and collective.flowplayer. Get statistics on how many times the video has been seen",
-      long_description=open("README.txt").read() + "\n" +
+      long_description=open("README.rst").read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
       # Get more strings from
       # http://pypi.python.org/pypi?:action=list_classifiers
       classifiers=[
-        "Development Status :: 4 - Beta",
+        "Development Status :: 3 - Alpha",
         "Framework :: Plone",
         "Framework :: Plone :: 4.1",
         "Topic :: Multimedia :: Video",

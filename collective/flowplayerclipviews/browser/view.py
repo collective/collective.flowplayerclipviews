@@ -37,8 +37,8 @@ class ViewCompletedView(BrowserView):
         """Return the video duration, or None if not able to extract it"""
         # info = IMediaInfo(self.context)
         # ...
-        # XXX not until flowplayer support directly duration extraction
-        return timedelta(0)
+        # XXX not until flowplayer will support video "duration" extraction
+        return None
 
     def __call__(self):
         context = self.context
@@ -50,14 +50,16 @@ class ViewCompletedView(BrowserView):
             clipDuration = self._getClipDuration()
             if clipDuration is not None:
                 now = datetime.now()
-                if clipDuration <= (now-session_data['time']):
-                    logger.debug("client response time: ok")
-                    stats = IViewsStats(context)
-                    if not IMediaWithViewsStats.providedBy(context):
-                        alsoProvides(context, IMediaWithViewsStats)
-                        stats.views = 0
-                        logger.debug("views count inited")
-                    else:
-                        stats.views += 1
-                        logger.debug("views count: %s" % stats.views)
-
+                if clipDuration > (now-session_data['time']):
+                    return
+                logger.debug("client response time: ok")
+            stats = IViewsStats(context)
+            if not IMediaWithViewsStats.providedBy(context):
+                alsoProvides(context, IMediaWithViewsStats)
+                stats.views = 1
+                logger.debug("views count inited")
+            else:
+                stats.views += 1
+                logger.debug("views count: %s" % stats.views)
+            return json.dumps({'views': stats.views})
+        return json.dumps({})
